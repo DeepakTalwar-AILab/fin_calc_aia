@@ -92,9 +92,9 @@ export default function DashboardLayout() {
         <div className="grid grid-cols-12 gap-4 h-full">
           {/* Left Sidebar - Compact Parameters */}
           <div className="col-span-12 lg:col-span-3">
-            <CompactParameterPanel 
-              inputs={inputs} 
-              onInputChange={handleInputChange}
+            <CompactParameterPanel
+              parameters={inputs}
+              onParameterChange={handleInputChange}
             />
           </div>
 

@@ -97,12 +97,11 @@
   
   /* Professional Dashboard Components - Matching Prototype */
   .metric-card {
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
     background: var(--color-bg-card);
     border: 1px solid var(--color-ui-border);
-    border-radius: 16px;
-    padding: 20px;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   }
   
   .metric-card:hover {
@@ -111,10 +110,7 @@
   }
   
   .metric-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   
   .metric-header h3 {
@@ -134,11 +130,10 @@
   }
   
   .metric-value {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--color-text-primary);
-    margin-bottom: 8px;
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    line-height: 1.2;
   }
   
   .metric-breakdown {
@@ -154,24 +149,22 @@
 
   /* Elegant Recommendation Banner - Like Prototype */
   .recommendation-banner {
-    background: linear-gradient(135deg, var(--color-ui-primary)08, var(--color-ui-primary)15);
-    border: 1px solid var(--color-ui-border);
-    border-radius: 16px;
-    padding: 24px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.03));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    padding: 20px;
     margin-bottom: 24px;
   }
 
   .recommendation-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-ui-primary);
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
+    font-weight: 600;
   }
 
   /* Chart Container Styling */

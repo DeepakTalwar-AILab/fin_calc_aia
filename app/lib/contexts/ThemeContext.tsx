@@ -49,43 +49,43 @@ export interface ThemeColors {
 export const themes: Record<ThemeType, ThemeColors> = {
   'lovable': {
     name: 'Modern',
-    emoji: '💜',
+    emoji: '💚',
     description: 'Clean & sophisticated',
     bg: {
       primary: '#ffffff',
-      secondary: '#fafaff',
-      tertiary: '#f8f9ff',
-      card: 'rgba(255, 255, 255, 0.95)',
-      hover: 'rgba(124, 90, 245, 0.05)',
+      secondary: '#fafafa',
+      tertiary: '#f8f9fa',
+      card: 'rgba(255, 255, 255, 0.98)',
+      hover: 'rgba(16, 185, 129, 0.05)',
     },
     text: {
-      primary: '#1a1a1a',
+      primary: '#1f2937',
       secondary: '#6b7280',
       muted: '#9ca3af',
-      accent: '#7c5af5',
+      accent: '#10b981', // Green accent from prototype
     },
     ui: {
-      primary: '#7c5af5', // Perfect purple from prototype
-      secondary: '#10b981', // Success green
+      primary: '#10b981', // Green from prototype "Buy Is Better"
+      secondary: '#059669', // Darker green
       accent: '#06b6d4', // Teal accent
-      success: '#059669',
+      success: '#10b981',
       warning: '#f59e0b',
       error: '#ef4444',
-      border: 'rgba(124, 90, 245, 0.12)',
+      border: 'rgba(229, 231, 235, 0.8)',
       input: 'rgba(255, 255, 255, 0.98)',
-      inputFocus: 'rgba(124, 90, 245, 0.08)',
+      inputFocus: 'rgba(16, 185, 129, 0.1)',
     },
     chart: {
-      buy: '#7c5af5', // Purple gradient start
-      rent: '#06b6d4', // Teal for rent
+      buy: '#10b981', // Green for buy
+      rent: '#06b6d4', // Teal for rent  
       positive: '#10b981',
       negative: '#ef4444',
       neutral: '#6366f1',
     },
     effects: {
-      glow: '0 4px 20px rgba(124, 90, 245, 0.15)',
+      glow: '0 4px 20px rgba(16, 185, 129, 0.15)',
       shadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)',
-      gradient: 'linear-gradient(135deg, #7c5af5 0%, #06b6d4 100%)',
+      gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
     },
   },
   'star-wars': {

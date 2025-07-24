@@ -35,8 +35,8 @@ export default function IntegratedCharts({ results }: IntegratedChartsProps) {
             <AreaChart data={chartData}>
               <defs>
                 <linearGradient id="buyGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7c5af5" stopOpacity={0.8} />
-                  <stop offset="100%" stopColor="#7c5af5" stopOpacity={0.1} />
+                  <stop offset="0%" stopColor="#10b981" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity={0.1} />
                 </linearGradient>
                 <linearGradient id="rentGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.8} />
@@ -53,26 +53,21 @@ export default function IntegratedCharts({ results }: IntegratedChartsProps) {
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 12, fill: 'var(--color-text-muted)' }}
-                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                tickFormatter={(value) => `$${value/1000}k`}
               />
-              <Tooltip 
-                formatter={(value: number, name: string) => [
-                  `$${value.toLocaleString()}`,
-                  name === 'buyCumulative' ? 'Buy' : 'Rent'
-                ]}
-                labelFormatter={(value) => `Year ${value}`}
+              <Tooltip
                 contentStyle={{
-                  backgroundColor: 'var(--color-bg-card)',
+                  background: 'var(--color-bg-card)',
                   border: '1px solid var(--color-ui-border)',
                   borderRadius: '12px',
-                  fontSize: '12px',
-                  boxShadow: 'var(--effect-shadow)'
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                 }}
+                formatter={(value: any) => [`$${Number(value).toLocaleString()}`, '']}
               />
               <Area
                 type="monotone"
                 dataKey="buyCumulative"
-                stroke="#7c5af5"
+                stroke="#10b981"
                 fill="url(#buyGradient)"
                 strokeWidth={2}
               />
@@ -125,10 +120,10 @@ export default function IntegratedCharts({ results }: IntegratedChartsProps) {
               <Line
                 type="monotone"
                 dataKey="buyNetWorth"
-                stroke="#7c5af5"
+                stroke="#10b981"
                 strokeWidth={3}
-                dot={{ fill: '#7c5af5', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, fill: '#7c5af5' }}
+                dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, fill: '#10b981' }}
               />
               <Line
                 type="monotone"

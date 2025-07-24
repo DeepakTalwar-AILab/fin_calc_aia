@@ -2,153 +2,172 @@
 
 import React from 'react'
 import { CalculatorInputs } from '../../lib/types/calculator'
-import { CurrencyInput, PercentageInput, NumberInput } from '../ui/Input'
+import { useTheme } from '../../lib/contexts/ThemeContext'
 
 interface CompactParameterPanelProps {
-  inputs: CalculatorInputs
-  onInputChange: (field: keyof CalculatorInputs, value: number) => void
+  parameters: CalculatorInputs
+  onParameterChange: (field: keyof CalculatorInputs, value: number) => void
 }
 
-export default function CompactParameterPanel({ inputs, onInputChange }: CompactParameterPanelProps) {
+const InputField = ({ label, value, onChange, type, suffix }: {
+  label: string
+  value: number
+  onChange: (value: number) => void
+  type: 'currency' | 'percentage' | 'number'
+  suffix?: string
+}) => {
+  const formatValue = () => {
+    if (type === 'currency') return `$${value.toLocaleString()}`
+    if (type === 'percentage') return `${value}%`
+    return value.toString()
+  }
+
   return (
-    <div className="space-y-4">
-      <div className="sticky top-4">
-        <h2 className="text-base font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>
-          Parameters
-        </h2>
-        
-        {/* Primary Inputs */}
-        <div className="space-y-3 mb-4">
-          <CurrencyInput
-            label="Purchase Price"
-            value={inputs.purchasePrice}
-            onValueChange={(value) => onInputChange('purchasePrice', value)}
-            helpText="Total home cost"
+    <div>
+      <label className="block text-xs font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>
+        {label}
+      </label>
+      <input
+        type="number"
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="input-field text-sm"
+        style={{
+          background: 'var(--color-ui-input)',
+          border: '1px solid var(--color-ui-border)',
+          color: 'var(--color-text-primary)',
+        }}
+      />
+    </div>
+  )
+}
+
+export default function CompactParameterPanel({ parameters, onParameterChange }: CompactParameterPanelProps) {
+  const { theme } = useTheme()
+
+  return (
+    <div className="sticky top-4 space-y-4">
+      <h2 className="text-base font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>
+        Parameters
+      </h2>
+
+      {/* Property Section */}
+      <div className="card">
+        <div className="flex items-center space-x-2 mb-3">
+          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>Property</h3>
+        </div>
+        <div className="space-y-3">
+          <InputField
+            label="Price"
+            value={parameters.purchasePrice}
+            onChange={(value) => onParameterChange('purchasePrice', value)}
+            type="currency"
           />
-          
-          <div className="grid grid-cols-2 gap-3">
-            <PercentageInput
+          <div className="grid grid-cols-2 gap-2">
+            <InputField
               label="Down Payment"
-              value={inputs.downPaymentPercentage}
-              onValueChange={(value) => onInputChange('downPaymentPercentage', value)}
-              min={5}
-              max={50}
+              value={parameters.downPaymentPercentage}
+              onChange={(value) => onParameterChange('downPaymentPercentage', value)}
+              type="percentage"
             />
-            
-            <NumberInput
-              label="Time Horizon"
-              value={inputs.timeHorizon}
-              onValueChange={(value) => onInputChange('timeHorizon', value)}
-              suffix="years"
-              min={1}
-              max={30}
-            />
+            <div></div>
           </div>
-          
-          <CurrencyInput
+          <InputField
             label="Monthly Rent"
-            value={inputs.monthlyRent}
-            onValueChange={(value) => onInputChange('monthlyRent', value)}
-            helpText="Equivalent rental cost"
+            value={parameters.monthlyRent}
+            onChange={(value) => onParameterChange('monthlyRent', value)}
+            type="currency"
           />
         </div>
+      </div>
 
-        {/* Collapsible Advanced Section */}
-        <details className="group">
-          <summary className="cursor-pointer list-none flex items-center justify-between p-3 rounded-lg hover:bg-opacity-50" style={{ background: 'var(--color-bg-tertiary)' }}>
-            <span className="font-medium" style={{ color: 'var(--color-text-primary)' }}>Advanced Parameters</span>
-            <svg className="w-5 h-5 transition-transform group-open:rotate-180" style={{ color: 'var(--color-text-secondary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </summary>
-          
-                      <div className="mt-2 space-y-2">
-            {/* Rates */}
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Interest Rates</h4>
-              <PercentageInput
-                label="Mortgage Rate"
-                value={inputs.mortgageRate}
-                onValueChange={(value) => onInputChange('mortgageRate', value)}
-                min={1}
-                max={15}
-                step={0.01}
-              />
-              <PercentageInput
-                label="Stock Growth"
-                value={inputs.stockMarketGrowthRate}
-                onValueChange={(value) => onInputChange('stockMarketGrowthRate', value)}
-                min={1}
-                max={15}
-                step={0.1}
-              />
-            </div>
-
-            {/* Property Costs */}
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Property Costs</h4>
-              <div className="grid grid-cols-2 gap-3">
-                <PercentageInput
-                  label="Property Tax"
-                  value={inputs.propertyTaxRate}
-                  onValueChange={(value) => onInputChange('propertyTaxRate', value)}
-                  min={0.1}
-                  max={5}
-                  step={0.1}
-                />
-                <PercentageInput
-                  label="Maintenance"
-                  value={inputs.maintenanceRate}
-                  onValueChange={(value) => onInputChange('maintenanceRate', value)}
-                  min={0.5}
-                  max={5}
-                  step={0.1}
-                />
-              </div>
-              <CurrencyInput
-                label="Home Insurance"
-                value={inputs.homeInsurance}
-                onValueChange={(value) => onInputChange('homeInsurance', value)}
-              />
-            </div>
-
-            {/* Economic Factors */}
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Economic Factors</h4>
-              <div className="grid grid-cols-2 gap-3">
-                <PercentageInput
-                  label="Home Appreciation"
-                  value={inputs.homePriceAppreciation}
-                  onValueChange={(value) => onInputChange('homePriceAppreciation', value)}
-                  min={0}
-                  max={10}
-                  step={0.1}
-                />
-                <PercentageInput
-                  label="Rent Growth"
-                  value={inputs.rentGrowthRate}
-                  onValueChange={(value) => onInputChange('rentGrowthRate', value)}
-                  min={0}
-                  max={10}
-                  step={0.1}
-                />
-              </div>
-            </div>
-
-            {/* Tax Settings */}
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Tax Settings</h4>
-              <PercentageInput
-                label="Tax Bracket"
-                value={inputs.taxBracket}
-                onValueChange={(value) => onInputChange('taxBracket', value)}
-                min={10}
-                max={37}
-                step={1}
-              />
-            </div>
+      {/* Loan Section */}
+      <div className="card">
+        <div className="flex items-center space-x-2 mb-3">
+          <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+          <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>Loan</h3>
+        </div>
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <InputField
+              label="Rate"
+              value={parameters.mortgageRate}
+              onChange={(value) => onParameterChange('mortgageRate', value)}
+              type="percentage"
+            />
+            <InputField
+              label="Term"
+              value={parameters.timeHorizon}
+              onChange={(value) => onParameterChange('timeHorizon', value)}
+              type="number"
+              suffix="yr"
+            />
           </div>
-        </details>
+        </div>
+      </div>
+
+      {/* Costs Section */}
+      <div className="card">
+        <div className="flex items-center space-x-2 mb-3">
+          <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+          <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>Costs</h3>
+        </div>
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <InputField
+              label="Tax"
+              value={parameters.propertyTaxRate}
+              onChange={(value) => onParameterChange('propertyTaxRate', value)}
+              type="percentage"
+            />
+            <InputField
+              label="Insurance"
+              value={parameters.homeInsurance}
+              onChange={(value) => onParameterChange('homeInsurance', value)}
+              type="currency"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <InputField
+              label="Maintenance"
+              value={parameters.maintenanceRate}
+              onChange={(value) => onParameterChange('maintenanceRate', value)}
+              type="percentage"
+            />
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Economic Section */}
+      <div className="card">
+        <div className="flex items-center space-x-2 mb-3">
+          <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+          <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>Economic</h3>
+        </div>
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <InputField
+              label="Stock Return"
+              value={parameters.stockMarketGrowthRate}
+              onChange={(value) => onParameterChange('stockMarketGrowthRate', value)}
+              type="percentage"
+            />
+            <InputField
+              label="Inflation"
+              value={parameters.inflationRate}
+              onChange={(value) => onParameterChange('inflationRate', value)}
+              type="percentage"
+            />
+          </div>
+          <InputField
+            label="Home Appreciation"
+            value={parameters.homePriceAppreciation}
+            onChange={(value) => onParameterChange('homePriceAppreciation', value)}
+            type="percentage"
+          />
+        </div>
       </div>
     </div>
   )
