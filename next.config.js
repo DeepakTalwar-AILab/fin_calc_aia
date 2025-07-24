@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
+  // Optimized for Vercel deployment
   images: {
-    unoptimized: true
+    unoptimized: true // Keep this for static exports if needed
   },
-  basePath: '/fin_calc_aia',
-  assetPrefix: '/fin_calc_aia/'
+  // Remove GitHub Pages specific settings
+  // output: 'export' - Not needed for Vercel
+  // trailingSlash: true - Not needed for Vercel  
+  // basePath: '/fin_calc_aia' - Not needed for Vercel
+  // assetPrefix: '/fin_calc_aia/' - Not needed for Vercel
 }
 
 module.exports = nextConfig 
