@@ -1,15 +1,13 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
-export type ThemeType = 'star-wars' | 'lovable' | 'july-4th'
+export type ThemeType = 'lovable' | 'star-wars' | 'july-4th'
 
 export interface ThemeColors {
   name: string
   emoji: string
   description: string
-  
-  // Backgrounds
   bg: {
     primary: string
     secondary: string
@@ -17,16 +15,12 @@ export interface ThemeColors {
     card: string
     hover: string
   }
-  
-  // Text colors
   text: {
     primary: string
     secondary: string
     muted: string
     accent: string
   }
-  
-  // UI colors
   ui: {
     primary: string
     secondary: string
@@ -38,8 +32,6 @@ export interface ThemeColors {
     input: string
     inputFocus: string
   }
-  
-  // Chart colors
   chart: {
     buy: string
     rent: string
@@ -47,8 +39,6 @@ export interface ThemeColors {
     negative: string
     neutral: string
   }
-  
-  // Special effects
   effects: {
     glow: string
     shadow: string
@@ -57,6 +47,47 @@ export interface ThemeColors {
 }
 
 export const themes: Record<ThemeType, ThemeColors> = {
+  'lovable': {
+    name: 'Modern',
+    emoji: '💜',
+    description: 'Clean & sophisticated',
+    bg: {
+      primary: '#ffffff',
+      secondary: '#fafaff',
+      tertiary: '#f8f9ff',
+      card: 'rgba(255, 255, 255, 0.95)',
+      hover: 'rgba(124, 90, 245, 0.05)',
+    },
+    text: {
+      primary: '#1a1a1a',
+      secondary: '#6b7280',
+      muted: '#9ca3af',
+      accent: '#7c5af5',
+    },
+    ui: {
+      primary: '#7c5af5', // Perfect purple from prototype
+      secondary: '#10b981', // Success green
+      accent: '#06b6d4', // Teal accent
+      success: '#059669',
+      warning: '#f59e0b',
+      error: '#ef4444',
+      border: 'rgba(124, 90, 245, 0.12)',
+      input: 'rgba(255, 255, 255, 0.98)',
+      inputFocus: 'rgba(124, 90, 245, 0.08)',
+    },
+    chart: {
+      buy: '#7c5af5', // Purple gradient start
+      rent: '#06b6d4', // Teal for rent
+      positive: '#10b981',
+      negative: '#ef4444',
+      neutral: '#6366f1',
+    },
+    effects: {
+      glow: '0 4px 20px rgba(124, 90, 245, 0.15)',
+      shadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)',
+      gradient: 'linear-gradient(135deg, #7c5af5 0%, #06b6d4 100%)',
+    },
+  },
   'star-wars': {
     name: 'Dark',
     emoji: '🌌',
@@ -75,9 +106,9 @@ export const themes: Record<ThemeType, ThemeColors> = {
       accent: '#58a6ff',
     },
     ui: {
-      primary: '#58a6ff', // Clean blue
-      secondary: '#56d364', // Github green
-      accent: '#f85149', // Alert red
+      primary: '#58a6ff',
+      secondary: '#56d364',
+      accent: '#f85149',
       success: '#56d364',
       warning: '#d29922',
       error: '#f85149',
@@ -98,49 +129,6 @@ export const themes: Record<ThemeType, ThemeColors> = {
       gradient: 'linear-gradient(135deg, #1c2128 0%, #21262d 100%)',
     },
   },
-  
-  'lovable': {
-    name: 'Modern',
-    emoji: '💜',
-    description: 'Clean & sophisticated',
-    bg: {
-      primary: '#ffffff',
-      secondary: '#f8fafc',
-      tertiary: '#f1f5f9',
-      card: 'rgba(255, 255, 255, 0.8)',
-      hover: 'rgba(99, 102, 241, 0.05)',
-    },
-    text: {
-      primary: '#0f172a',
-      secondary: '#475569',
-      muted: '#64748b',
-      accent: '#6366f1',
-    },
-    ui: {
-      primary: '#6366f1', // Clean indigo
-      secondary: '#10b981', // Success green
-      accent: '#06b6d4', // Info cyan
-      success: '#10b981',
-      warning: '#f59e0b',
-      error: '#ef4444',
-      border: 'rgba(99, 102, 241, 0.15)',
-      input: 'rgba(255, 255, 255, 0.95)',
-      inputFocus: 'rgba(99, 102, 241, 0.05)',
-    },
-    chart: {
-      buy: '#6366f1',
-      rent: '#10b981',
-      positive: '#10b981',
-      negative: '#ef4444',
-      neutral: '#06b6d4',
-    },
-    effects: {
-      glow: '0 0 20px rgba(99, 102, 241, 0.15)',
-      shadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-      gradient: 'linear-gradient(135deg, #6366f1 0%, #10b981 100%)',
-    },
-  },
-  
   'july-4th': {
     name: 'Classic',
     emoji: '🇺🇸',
@@ -159,9 +147,9 @@ export const themes: Record<ThemeType, ThemeColors> = {
       accent: '#1f2937',
     },
     ui: {
-      primary: '#374151', // Professional gray
-      secondary: '#059669', // Success green  
-      accent: '#dc2626', // Accent red
+      primary: '#374151',
+      secondary: '#059669',
+      accent: '#dc2626',
       success: '#059669',
       warning: '#d97706',
       error: '#dc2626',
@@ -186,73 +174,72 @@ export const themes: Record<ThemeType, ThemeColors> = {
 
 interface ThemeContextType {
   currentTheme: ThemeType
-  theme: ThemeColors
   setTheme: (theme: ThemeType) => void
-  isTransitioning: boolean
+  theme: ThemeColors
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<ThemeType>('lovable')
-  const [isTransitioning, setIsTransitioning] = useState(false)
 
-  // Load saved theme from localStorage
+  const setTheme = (theme: ThemeType) => {
+    setCurrentTheme(theme)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', theme)
+    }
+  }
+
   useEffect(() => {
-    const savedTheme = localStorage.getItem('calculator-theme') as ThemeType
-    if (savedTheme && themes[savedTheme]) {
-      setCurrentTheme(savedTheme)
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as ThemeType
+      if (savedTheme && themes[savedTheme]) {
+        setCurrentTheme(savedTheme)
+      }
     }
   }, [])
 
-  // Apply theme to CSS variables
   useEffect(() => {
-    const theme = themes[currentTheme]
-    const root = document.documentElement
+    if (typeof window !== 'undefined') {
+      const theme = themes[currentTheme]
+      const root = document.documentElement
 
-    // Apply all theme colors as CSS variables
-    Object.entries(theme.bg).forEach(([key, value]) => {
-      root.style.setProperty(`--color-bg-${key}`, value)
-    })
-    
-    Object.entries(theme.text).forEach(([key, value]) => {
-      root.style.setProperty(`--color-text-${key}`, value)
-    })
-    
-    Object.entries(theme.ui).forEach(([key, value]) => {
-      root.style.setProperty(`--color-ui-${key}`, value)
-    })
-    
-    Object.entries(theme.chart).forEach(([key, value]) => {
-      root.style.setProperty(`--color-chart-${key}`, value)
-    })
-    
-    Object.entries(theme.effects).forEach(([key, value]) => {
-      root.style.setProperty(`--effect-${key}`, value)
-    })
+      // Apply CSS variables
+      root.style.setProperty('--color-bg-primary', theme.bg.primary)
+      root.style.setProperty('--color-bg-secondary', theme.bg.secondary)
+      root.style.setProperty('--color-bg-tertiary', theme.bg.tertiary)
+      root.style.setProperty('--color-bg-card', theme.bg.card)
+      root.style.setProperty('--color-bg-hover', theme.bg.hover)
 
-    // Add theme class to body for specific overrides
-    document.body.className = `theme-${currentTheme}`
+      root.style.setProperty('--color-text-primary', theme.text.primary)
+      root.style.setProperty('--color-text-secondary', theme.text.secondary)
+      root.style.setProperty('--color-text-muted', theme.text.muted)
+      root.style.setProperty('--color-text-accent', theme.text.accent)
+
+      root.style.setProperty('--color-ui-primary', theme.ui.primary)
+      root.style.setProperty('--color-ui-secondary', theme.ui.secondary)
+      root.style.setProperty('--color-ui-accent', theme.ui.accent)
+      root.style.setProperty('--color-ui-success', theme.ui.success)
+      root.style.setProperty('--color-ui-warning', theme.ui.warning)
+      root.style.setProperty('--color-ui-error', theme.ui.error)
+      root.style.setProperty('--color-ui-border', theme.ui.border)
+      root.style.setProperty('--color-ui-input', theme.ui.input)
+      root.style.setProperty('--color-ui-inputFocus', theme.ui.inputFocus)
+
+      root.style.setProperty('--color-chart-buy', theme.chart.buy)
+      root.style.setProperty('--color-chart-rent', theme.chart.rent)
+      root.style.setProperty('--color-chart-positive', theme.chart.positive)
+      root.style.setProperty('--color-chart-negative', theme.chart.negative)
+      root.style.setProperty('--color-chart-neutral', theme.chart.neutral)
+
+      root.style.setProperty('--effect-glow', theme.effects.glow)
+      root.style.setProperty('--effect-shadow', theme.effects.shadow)
+      root.style.setProperty('--effect-gradient', theme.effects.gradient)
+    }
   }, [currentTheme])
 
-  const setTheme = (theme: ThemeType) => {
-    setIsTransitioning(true)
-    setCurrentTheme(theme)
-    localStorage.setItem('calculator-theme', theme)
-    
-    // Reset transition state after animation
-    setTimeout(() => setIsTransitioning(false), 300)
-  }
-
-  const value = {
-    currentTheme,
-    theme: themes[currentTheme],
-    setTheme,
-    isTransitioning,
-  }
-
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider value={{ currentTheme, setTheme, theme: themes[currentTheme] }}>
       {children}
     </ThemeContext.Provider>
   )
