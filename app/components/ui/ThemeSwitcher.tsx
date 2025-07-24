@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useTheme, themes, ThemeType } from '../../lib/contexts/ThemeContext'
 
 export default function ThemeSwitcher() {
-  const { currentTheme, setTheme, isTransitioning } = useTheme()
+  const { currentTheme, setTheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
 
   const handleThemeChange = (newTheme: ThemeType) => {
@@ -24,7 +24,7 @@ export default function ThemeSwitcher() {
             rounded-2xl shadow-lg hover:shadow-xl
             transition-all duration-300 ease-out
             hover:scale-110 hover:rotate-12
-            ${isTransitioning ? 'animate-pulse' : ''}
+
             ${isOpen ? 'scale-110 rotate-12' : ''}
           `}
           style={{
