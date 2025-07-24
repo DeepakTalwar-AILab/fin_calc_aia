@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  body {
+    background: var(--color-bg-primary, #fafafa);
+    color: var(--color-text-primary, #1e293b);
+    transition: all 0.3s ease;
+    @apply antialiased;
+  }
+  
+  /* Custom number input styling */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background: var(--color-ui-primary);
+    color: white;
+    @apply font-medium py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105;
+    box-shadow: var(--effect-shadow);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: var(--effect-glow);
+  }
+  
+  .btn-secondary {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+    @apply font-medium py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105;
+  }
+  
+  .input-field {
+    background: var(--color-ui-input);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-ui-border);
+    @apply w-full px-3 py-2 rounded-lg transition-all duration-200;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    background: var(--color-ui-inputFocus);
+    border-color: var(--color-ui-primary);
+    box-shadow: 0 0 0 2px var(--color-ui-primary);
+  }
+  
+  .card {
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-ui-border);
+    backdrop-filter: blur(10px);
+    @apply rounded-xl p-6 transition-all duration-300;
+    box-shadow: var(--effect-shadow);
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--effect-glow);
+  }
+  
+  .section-title {
+    color: var(--color-text-primary);
+    @apply text-xl font-semibold mb-4;
+  }
+  
+  .metric-label {
+    color: var(--color-text-secondary);
+    @apply text-sm font-medium mb-1;
+  }
+  
+  .metric-value {
+    color: var(--color-text-primary);
+    @apply text-2xl font-bold font-mono;
+  }
+  
+  .metric-positive {
+    color: var(--color-chart-positive);
+  }
+  
+  .metric-negative {
+    color: var(--color-chart-negative);
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .theme-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Professional Dashboard Components */
+  .metric-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-ui-border);
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s ease;
+  }
+  
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--effect-shadow);
+  }
+  
+  .metric-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .metric-header h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+  
+  .metric-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+  }
+  
+  .metric-breakdown {
+    space-y: 4px;
+  }
+  
+  .metric-breakdown div {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .fixed,
+  .theme-transition {
+    display: none !important;
+  }
+  
+  .card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #e5e7eb !important;
+    background: white !important;
+    color: black !important;
+  }
+  
+  .metric-value {
+    color: black !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .section-title {
+    color: black !important;
+  }
+} 
